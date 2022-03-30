@@ -27,6 +27,25 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/forgot-password/forgot-password.module').then((m) => m.ForgotPasswordPageModule),
   },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then((m) => m.RegisterPageModule),
+  },
+  {
+    path: 'reset-forgotten-password',
+    loadChildren: () =>
+      import('./pages/reset-forgotten-password/reset-forgotten-password.module').then(
+        (m) => m.ResetForgottenPasswordPageModule,
+      ),
+  },
+  {
+    path: 'verify-email',
+    loadChildren: () => import('./pages/verify-email/verify-email.module').then((m) => m.VerifyEmailPageModule),
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/not-found/not-found.module').then((m) => m.NotFoundPageModule),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
