@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanLoad, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Storage } from '@ionic/storage-angular';
+import { CanLoad, Router } from '@angular/router';
 import { StorageService } from '../storage/storage.service';
 
 export const HAS_SEEN_INTRO_KEY = 'hasSeenIntro';

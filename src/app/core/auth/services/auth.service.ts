@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { AppConfig, APP_CONFIG } from '@core/config/app-config';
 import { User, UserRole } from '@core/interfaces';
 import { WINDOW } from '@ng-web-apis/common';
-import { catchError, Observable, of, shareReplay, switchMap, tap, timer } from 'rxjs';
+import { Observable, of, timer, switchMap, catchError, shareReplay, tap } from 'rxjs';
 import { StateSubject } from 'rxjs-state-subject';
 import { LoginResponse } from '../interfaces/login-response';
 import { LoginPayload } from '../interfaces/login.payload';
@@ -14,11 +14,11 @@ import { TokenStorageService } from './token-storage.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private endpoint: string;
-
   user = new StateSubject<User | null>(null);
   accessToken = new StateSubject<string>(this.storage.getAccessToken() ?? '');
   refreshToken = new StateSubject<string>(this.storage.getRefreshToken() ?? '');
+
+  private endpoint: string;
 
   get isLoggedIn(): boolean {
     return Boolean(this.accessToken.value);

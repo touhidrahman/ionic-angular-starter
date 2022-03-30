@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicSlides, IonSlides } from '@ionic/angular';
+import { IonicSlides } from '@ionic/angular';
 import { HAS_SEEN_INTRO_KEY } from 'src/app/core/guards/intro.guard';
 import { StorageService } from 'src/app/core/storage/storage.service';
 import SwiperCore, { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';

@@ -10,7 +10,9 @@ export abstract class AbstractFormService<T, DtoT extends { id?: string }> {
   }
 
   get valid(): boolean {
-    if (this.form.untouched) return false;
+    if (this.form.untouched) {
+      return false;
+    }
     return this.form.valid;
   }
 
@@ -31,14 +33,14 @@ export abstract class AbstractFormService<T, DtoT extends { id?: string }> {
     }
   }
 
-  abstract buildForm(): FormGroup;
-
   fillFormById$(id: string): Observable<T> {
     return this.apiService.findById(id).pipe(tap((value) => this.setFormValue(value as unknown as DtoT)));
   }
 
   save$(): Observable<T> {
-    if (this.form.invalid) return throwError(() => new Error('Invalid form'));
+    if (this.form.invalid) {
+      return throwError(() => new Error('Invalid form'));
+    }
 
     const id = this.form.get('id')?.value ?? null;
     return id ? this.update$(id) : this.create$();
@@ -51,4 +53,6 @@ export abstract class AbstractFormService<T, DtoT extends { id?: string }> {
   protected update$(id: string): Observable<T> {
     return this.apiService.update(id, this.getFormValue()).pipe(tap(() => this.setFormValue(null)));
   }
+
+  abstract buildForm(): FormGroup;
 }

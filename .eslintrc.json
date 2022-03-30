@@ -8,34 +8,58 @@
         "project": ["tsconfig.json", "e2e/tsconfig.json"],
         "createDefaultProgram": true
       },
-      "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "extends": ["plugin:angular/johnpapa", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
       "rules": {
-        "@angular-eslint/component-class-suffix": [
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": [
           "error",
           {
-            "suffixes": ["Page", "Component"]
+            "vars": "local",
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
           }
         ],
-        "@angular-eslint/component-selector": [
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
           "error",
           {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
+            "accessibility": "no-public"
           }
         ],
-        "@angular-eslint/directive-selector": [
+        "@typescript-eslint/member-delimiter-style": [
+          "off",
+          {
+            "multiline": {
+              "delimiter": "none",
+              "requireLast": true
+            },
+            "singleline": {
+              "delimiter": "semi",
+              "requireLast": false
+            }
+          }
+        ],
+        "@typescript-eslint/semi": ["off", null],
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-use-before-define": "error",
+        "@typescript-eslint/no-empty-function": "off",
+        "no-unused-vars": "off",
+        "arrow-parens": ["off", "always"],
+        "brace-style": ["off", "off"],
+        "comma-dangle": ["off", "always-multiline"],
+        "max-len": [
           "error",
           {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
+            "ignorePattern": "^import .* from .*|// no-max-line",
+            "code": 180
           }
-        ]
+        ],
+        "new-parens": "off",
+        "newline-per-chained-call": "off",
+        "no-extra-semi": "warn",
+        "space-in-parens": ["off", "never"]
       }
     },
     {

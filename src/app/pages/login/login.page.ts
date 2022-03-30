@@ -7,6 +7,7 @@ import { LoginFormService } from '@core/auth/services/login-form.service';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  providers: [LoginFormService],
 })
 export class LoginPage implements OnInit {
   loading = false;
