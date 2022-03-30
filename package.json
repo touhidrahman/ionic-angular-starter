@@ -86,6 +86,6 @@
     "*.{html,xml}": "prettier --write"
   },
   "simple-git-hooks": {
-    "pre-commit": ["npx lint-staged", "npm run lint"]
+    "pre-commit": "npx lint-staged"
   }
 }
