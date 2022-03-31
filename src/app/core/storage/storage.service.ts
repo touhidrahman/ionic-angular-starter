@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage-angular';
   providedIn: 'root',
 })
 export class StorageService {
-  private storageInternal: Storage | null = null;
+  private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
     this.init();
@@ -15,14 +15,18 @@ export class StorageService {
   async init() {
     // If using, define drivers here: await this.storage.defineDriver(/*...*/);
     const storage = await this.storage.create();
-    this.storageInternal = storage;
+    this._storage = storage;
   }
 
   set(key: string, value: any) {
-    this.storageInternal?.set(key, value);
+    this._storage?.set(key, value);
   }
 
   async get(key: string): Promise<any> {
-    return this.storageInternal?.get(key);
+    return this._storage?.get(key);
+  }
+
+  remove(key: string) {
+    this._storage?.remove(key);
   }
 }

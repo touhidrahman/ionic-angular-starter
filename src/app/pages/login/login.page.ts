@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@core/auth/services/auth.service';
 import { LoginFormService } from '@core/auth/services/login-form.service';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,6 @@ import { LoginFormService } from '@core/auth/services/login-form.service';
   providers: [LoginFormService],
 })
 export class LoginPage implements OnInit {
-  loading = false;
-  errors: string[] = [];
   private returnUrl = '';
 
   constructor(
@@ -19,7 +18,17 @@ export class LoginPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private auth: AuthService,
     private router: Router,
+    private loadingController: LoadingController,
+    private alertController: AlertController,
   ) {}
+
+  get email() {
+    return this.loginFormService.loginForm.controls['email'];
+  }
+
+  get password() {
+    return this.loginFormService.loginForm.controls['password'];
+  }
 
   ngOnInit(): void {
     this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl ?? '/';
@@ -28,26 +37,25 @@ export class LoginPage implements OnInit {
     }
   }
 
-  submit(): void {
-    if (this.loading) {
-      return;
-    }
-
-    if (this.loginFormService.loginForm.invalid) {
-      this.errors.push('Invalid Credentials');
-    }
-
-    this.errors = [];
-    this.loading = true;
+  async submit() {
+    const loading = await this.loadingController.create();
+    await loading.present();
 
     this.auth.login(this.loginFormService.getValue()).subscribe({
-      next: (_) => {
-        this.loading = false;
-        this.router.navigateByUrl(this.returnUrl);
+      next: async (_) => {
+        await loading.dismiss();
+        this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
       },
-      error: () => {
-        this.loading = false;
-        this.errors.push('Invalid Credentials');
+      error: async () => {
+        await loading.dismiss();
+
+        const alert = await this.alertController.create({
+          header: 'Login failed',
+          message: 'Please check your email and password',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
       },
     });
   }

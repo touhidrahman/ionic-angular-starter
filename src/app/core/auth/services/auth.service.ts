@@ -2,21 +2,23 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { AppConfig, APP_CONFIG } from '@core/config/app-config';
 import { User, UserRole } from '@core/interfaces';
-import { WINDOW } from '@ng-web-apis/common';
-import { Observable, of, timer, switchMap, catchError, shareReplay, tap } from 'rxjs';
+import { StorageService } from '@core/storage/storage.service';
+import { catchError, Observable, of, shareReplay, switchMap, tap, timer } from 'rxjs';
 import { StateSubject } from 'rxjs-state-subject';
 import { LoginResponse } from '../interfaces/login-response';
 import { LoginPayload } from '../interfaces/login.payload';
 import { RegisterPayload } from '../interfaces/register.payload';
-import { TokenStorageService } from './token-storage.service';
+
+const ACCESS_TOKEN_KEY = 'accesToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   user = new StateSubject<User | null>(null);
-  accessToken = new StateSubject<string>(this.storage.getAccessToken() ?? '');
-  refreshToken = new StateSubject<string>(this.storage.getRefreshToken() ?? '');
+  accessToken = new StateSubject<string>('');
+  refreshToken = new StateSubject<string>('');
 
   private endpoint: string;
 
@@ -30,10 +32,10 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private storage: TokenStorageService,
-    @Inject(WINDOW) private windowRef: Window,
+    private storage: StorageService,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
   ) {
+    this.getTokens();
     this.endpoint = this.appConfig.apiUrl + '/auth';
     timer(300)
       .pipe(switchMap(() => this.getLoggedInUser$()))
@@ -44,11 +46,10 @@ export class AuthService {
     return this.http.post<void>(`${this.endpoint}/register`, data);
   }
 
-  login(data: LoginPayload, returnUrl?: string): Observable<LoginResponse | null> {
+  login(data: LoginPayload): Observable<LoginResponse | null> {
     return this.http.post<LoginResponse>(`${this.endpoint}/login`, data).pipe(
       tap((data) => {
         this.setTokens(data.accessToken, data.refreshToken);
-        this.windowRef.location.href = returnUrl ?? '/';
       }),
     );
   }
@@ -70,14 +71,15 @@ export class AuthService {
   }
 
   setTokens(accessToken: string, refreshToken = '') {
-    this.storage.saveAccessToken(accessToken);
-    this.storage.saveRefreshToken(refreshToken);
+    this.storage.set(ACCESS_TOKEN_KEY, accessToken);
+    this.storage.set(REFRESH_TOKEN_KEY, refreshToken);
     this.accessToken.next(accessToken);
     this.refreshToken.next(refreshToken);
   }
 
   deleteTokens() {
-    this.storage.clear();
+    this.storage.remove(ACCESS_TOKEN_KEY);
+    this.storage.remove(REFRESH_TOKEN_KEY);
     this.accessToken.next('');
     this.refreshToken.next('');
   }
@@ -85,7 +87,6 @@ export class AuthService {
   signOut() {
     this.deleteTokens();
     this.user.next(null);
-    this.windowRef.location.href = '/';
   }
 
   getLoggedInUser$(): Observable<User | null> {
@@ -97,5 +98,12 @@ export class AuthService {
       }),
       shareReplay({ bufferSize: 1, refCount: true }),
     );
+  }
+
+  private async getTokens() {
+    const accessToken = await this.storage.get(ACCESS_TOKEN_KEY);
+    const refreshToken = await this.storage.get(REFRESH_TOKEN_KEY);
+    this.accessToken.next(accessToken);
+    this.refreshToken.next(refreshToken);
   }
 }
