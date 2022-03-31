@@ -5,10 +5,6 @@ import { IntroGuard } from './core/guards/intro.guard';
 
 const routes: Routes = [
   {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsPageModule),
-  },
-  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
