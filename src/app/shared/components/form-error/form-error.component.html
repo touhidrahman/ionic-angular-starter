@@ -1,0 +1,6 @@
+<div *ngIf="control && (control.dirty || control.touched) && control.errors" class="errors">
+  <span *ngIf="control.errors?.required">{{ errorMap.required || 'This field is required' }}</span>
+  <span *ngIf="control.errors?.email">Email is invalid</span>
+  <span *ngIf="control.errors?.minlength">{{ errorMap.minlength || 'Min 6 characters required' }}</span>
+  <span *ngIf="control.errors?.maxlength">{{ errorMap.maxlength || 'Max characters reached' }}</span>
+</div>

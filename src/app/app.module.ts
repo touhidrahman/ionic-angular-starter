@@ -8,9 +8,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { IntroGuard } from '@core/guards/intro.guard';
 import { LoggedInGuard } from '@core/guards/logged-in.guard';
 import { NotLoggedInGuard } from '@core/guards/not-logged-in.guard';
-import { unauthorizedInterceptorProvider } from '@core/interceptors/unauthorized.interceptor';
-import { TokenService } from '@core/services/token.service';
-import { StorageService } from '@core/storage/storage.service';
+import { TokenService } from '@core/auth/services/token.service';
 import { environment } from '@environment/environment';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
@@ -50,7 +48,6 @@ import { AppComponent } from './app.component';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: APP_CONFIG, useValue: environment },
-    unauthorizedInterceptorProvider,
     IntroGuard,
     NotLoggedInGuard,
     LoggedInGuard,

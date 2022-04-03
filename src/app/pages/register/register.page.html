@@ -1,75 +1,43 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>register</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="my-auto flex flex-col justify-center px-8 pt-8 md:justify-start md:px-24 md:pt-0 lg:px-32">
-    <p class="text-center text-3xl">Register</p>
-    <form (ngSubmit)="register()" [formGroup]="registerFormService.form" class="flex flex-col pt-3 md:pt-8">
-      <div class="flex flex-col pt-4">
-        <div *ngIf="errors.length" class="mb-8 border border-solid border-red-500 bg-red-100 px-4 py-2 text-red-500">
-          <ng-container *ngFor="let err of errors">{{ err }}</ng-container>
-        </div>
-        <div class="flex space-x-4">
-          <input
-            type="text"
-            formControlName="firstName"
-            class="w-full flex-1 appearance-none border border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="First Name"
-          />
-          <input
-            type="text"
-            formControlName="lastName"
-            class="w-full flex-1 appearance-none border border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="Last Name"
-          />
-        </div>
-      </div>
-      <div class="flex flex-col pt-4">
-        <div class="relative flex">
-          <input
-            type="text"
-            formControlName="email"
-            class="w-full flex-1 appearance-none border border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="Email"
-          />
-        </div>
-      </div>
-      <div class="mb-12 flex flex-col pt-4">
-        <div class="relative flex">
-          <input
-            type="password"
-            id="design-login-password"
-            formControlName="password"
-            class="w-full flex-1 appearance-none border border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="Password"
-          />
-        </div>
-      </div>
-      <button
-        type="submit"
-        class="w-full bg-black px-4 py-2 text-center text-base font-semibold text-white shadow-md transition duration-200 ease-in focus:outline-none focus:ring-2 hover:bg-white hover:text-black"
-      >
-        <span *ngIf="loading" class="w-full">
-          <i class="bx bx-loader bx-spin"></i>
-          Please wait
-        </span>
-        <span *ngIf="!loading" class="w-full"> Submit </span>
-      </button>
-    </form>
-    <div class="pt-12 pb-12 text-center">
-      <p>
-        Have an account?
-        <a [routerLink]="['/login']" class="font-semibold underline"> Login here. </a>
-      </p>
+  <form (ngSubmit)="register()" [formGroup]="registerFormService.form" class="">
+    <div class="input-group">
+      <ion-item>
+        <ion-label position="floating">Firstname</ion-label>
+        <ion-input type="email" formControlName="firstName"></ion-input>
+      </ion-item>
+      <app-form-error [control]="registerFormService.form.get('firstName')"></app-form-error>
+
+      <ion-item>
+        <ion-label position="floating">Lastname</ion-label>
+        <ion-input type="email" formControlName="lastName"></ion-input>
+      </ion-item>
+      <app-form-error [control]="registerFormService.form.get('lastName')"></app-form-error>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <app-form-error [control]="registerFormService.form.get('email')"></app-form-error>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <app-form-error
+        [control]="registerFormService.form.get('password')"
+        [errorMap]="{ required: 'Password is required', minlength: 'Password must be longer' }"
+      ></app-form-error>
     </div>
-    <div class="pt-12 text-center text-xs text-gray-400">
-      <p>
-        Go to
-        <a [routerLink]="['/']" class="font-semibold underline"> Home </a>
-      </p>
-    </div>
-  </div>
+
+    <ion-button type="submit" expand="block" [disabled]="!registerFormService.form.valid">Register</ion-button>
+    <ion-button [routerLink]="['/login']" type="button" expand="block" color="light" fill="clear">
+      Have an account? Login!
+    </ion-button>
+  </form>
 </ion-content>

@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { TokenService } from '@core/auth/services/token.service';
 import { AppConfig, APP_CONFIG } from '@core/config/app-config';
 import { User, UserRole } from '@core/interfaces';
-import { TokenService } from '@core/services/token.service';
-import { StorageService } from '@core/storage/storage.service';
 import { Platform } from '@ionic/angular';
 import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
 import { StateSubject } from 'rxjs-state-subject';
