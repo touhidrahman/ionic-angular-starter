@@ -1,14 +1,14 @@
-import { Observable } from 'rxjs';
-import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injectable, Provider } from '@angular/core';
-import { TokenStorageService } from '@core/auth/services/token-storage.service';
+import { AuthService } from '@core/auth/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthHeaderInterceptor implements HttpInterceptor {
-  constructor(private tokenStorage: TokenStorageService) {}
+  constructor(private authService: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const accessToken = this.tokenStorage.getAccessToken();
+    const accessToken = this.authService.accessToken.value;
 
     if (accessToken) {
       request = this.addToken(request, accessToken);
