@@ -4,17 +4,17 @@ import { LoginPayload } from '../interfaces/login.payload';
 
 @Injectable()
 export class LoginFormService {
-  loginForm: FormGroup;
+    loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
-  }
+    constructor(private fb: FormBuilder) {
+        this.loginForm = this.fb.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', Validators.required],
+        });
+    }
 
-  getValue(): LoginPayload {
-    const { email, password } = this.loginForm.value;
-    return { email, password };
-  }
+    getValue(): LoginPayload {
+        const { email, password } = this.loginForm.value;
+        return { email, password };
+    }
 }

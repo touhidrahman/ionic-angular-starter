@@ -6,7 +6,7 @@ import { ResetForgottenPasswordPageRoutingModule } from './reset-forgotten-passw
 import { ResetForgottenPasswordPage } from './reset-forgotten-password.page';
 
 @NgModule({
-  imports: [CoreModule, FormsModule, IonicModule, ResetForgottenPasswordPageRoutingModule],
-  declarations: [ResetForgottenPasswordPage],
+    imports: [CoreModule, FormsModule, IonicModule, ResetForgottenPasswordPageRoutingModule],
+    declarations: [ResetForgottenPasswordPage],
 })
 export class ResetForgottenPasswordPageModule {}

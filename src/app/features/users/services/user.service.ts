@@ -6,14 +6,14 @@ import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class UserService extends ApiService<User, unknown> {
-  constructor(protected http: HttpClient, @Inject(APP_CONFIG) appConfig: AppConfig) {
-    super(http, 'users', appConfig);
-  }
+    constructor(protected http: HttpClient, @Inject(APP_CONFIG) appConfig: AppConfig) {
+        super(http, 'users', appConfig);
+    }
 
-  getMe(): Observable<User> {
-    return this.http.get<User>(this.apiUrl + '/me');
-  }
+    getMe(): Observable<User> {
+        return this.http.get<User>(this.apiUrl + '/me');
+    }
 }

@@ -9,8 +9,8 @@ import { UniquePipe } from './unique.pipe';
 import { ValueInPipe } from './value-in.pipe';
 
 @NgModule({
-  declarations: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe],
-  exports: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe],
-  imports: [CommonModule],
+    declarations: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe],
+    exports: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe],
+    imports: [CommonModule],
 })
 export class PipesModule {}

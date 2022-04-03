@@ -5,8 +5,8 @@ import { HeaderNavigationsComponent } from './components/header-navigations/head
 import { HeaderOneComponent } from './components/header-one/header-one.component';
 
 @NgModule({
-  declarations: [FooterOneComponent, HeaderNavigationsComponent, HeaderOneComponent],
-  exports: [FooterOneComponent, HeaderNavigationsComponent, HeaderOneComponent],
-  imports: [CoreModule],
+    declarations: [FooterOneComponent, HeaderNavigationsComponent, HeaderOneComponent],
+    exports: [FooterOneComponent, HeaderNavigationsComponent, HeaderOneComponent],
+    imports: [CoreModule],
 })
 export class LayoutModule {}

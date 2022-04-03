@@ -1,35 +1,35 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>Login</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form (ngSubmit)="submit()" [formGroup]="loginFormService.loginForm" class="">
-    <div class="input-group">
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <app-form-error [control]="loginFormService.loginForm.get('email')"></app-form-error>
+    <form (ngSubmit)="submit()" [formGroup]="loginFormService.loginForm" class="">
+        <div class="input-group">
+            <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+            </ion-item>
+            <app-form-error [control]="loginFormService.loginForm.get('email')"></app-form-error>
 
-      <ion-item>
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
-      <app-form-error
-        [control]="loginFormService.loginForm.get('password')"
-        [errorMap]="{ required: 'Password is required', minlength: 'Password must be longer' }"
-      ></app-form-error>
+            <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+            <app-form-error
+                [control]="loginFormService.loginForm.get('password')"
+                [errorMap]="{ required: 'Password is required', minlength: 'Password must be longer' }"
+            ></app-form-error>
+        </div>
+
+        <ion-button type="submit" expand="block" [disabled]="!loginFormService.loginForm.valid">Log in</ion-button>
+        <ion-button [routerLink]="['/register']" type="button" expand="block" color="light" fill="clear"
+            >Not yet a member? Sign up!
+        </ion-button>
+    </form>
+
+    <div class="footer text-white">
+        <a [routerLink]="['/forgot-password']" class="">Forgot Password</a>
     </div>
-
-    <ion-button type="submit" expand="block" [disabled]="!loginFormService.loginForm.valid">Log in</ion-button>
-    <ion-button [routerLink]="['/register']" type="button" expand="block" color="light" fill="clear"
-      >Not yet a member? Sign up!
-    </ion-button>
-  </form>
-
-  <div class="footer text-white">
-    <a [routerLink]="['/forgot-password']" class="">Forgot Password</a>
-  </div>
 </ion-content>

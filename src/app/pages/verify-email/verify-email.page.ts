@@ -4,36 +4,36 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { timer } from 'rxjs';
 
 @Component({
-  selector: 'app-verify-email',
-  templateUrl: './verify-email.page.html',
-  styleUrls: ['./verify-email.page.scss'],
+    selector: 'app-verify-email',
+    templateUrl: './verify-email.page.html',
+    styleUrls: ['./verify-email.page.scss'],
 })
 export class VerifyEmailPage implements OnInit {
-  message = 'Verifying email...';
+    message = 'Verifying email...';
 
-  constructor(private auth: AuthService, private activatedRoute: ActivatedRoute, private router: Router) {}
+    constructor(private auth: AuthService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
-  ngOnInit(): void {
-    const token = this.activatedRoute.snapshot.params.token ?? '';
-    if (!token) {
-      this.message = 'Invalid token';
-      this.redirectToLoginPage();
-      return;
+    ngOnInit(): void {
+        const token = this.activatedRoute.snapshot.params.token ?? '';
+        if (!token) {
+            this.message = 'Invalid token';
+            this.redirectToLoginPage();
+            return;
+        }
+
+        this.auth.verifyEmail(token).subscribe({
+            next: () => {
+                this.message = 'Email verified. Redirecting to login page...';
+                this.redirectToLoginPage();
+            },
+            error: () => {
+                this.message = 'Invalid token';
+                this.redirectToLoginPage();
+            },
+        });
     }
 
-    this.auth.verifyEmail(token).subscribe({
-      next: () => {
-        this.message = 'Email verified. Redirecting to login page...';
-        this.redirectToLoginPage();
-      },
-      error: () => {
-        this.message = 'Invalid token';
-        this.redirectToLoginPage();
-      },
-    });
-  }
-
-  private redirectToLoginPage() {
-    timer(5000).subscribe({ next: () => this.router.navigate(['/']) });
-  }
+    private redirectToLoginPage() {
+        timer(5000).subscribe({ next: () => this.router.navigate(['/']) });
+    }
 }

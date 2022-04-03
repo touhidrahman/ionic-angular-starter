@@ -10,7 +10,7 @@ import { IntroPage } from './intro.page';
 import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, SwiperModule, IntroPageRoutingModule],
-  declarations: [IntroPage],
+    imports: [CommonModule, FormsModule, IonicModule, SwiperModule, IntroPageRoutingModule],
+    declarations: [IntroPage],
 })
 export class IntroPageModule {}

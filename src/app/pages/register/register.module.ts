@@ -6,7 +6,7 @@ import { RegisterPageRoutingModule } from './register-routing.module';
 import { RegisterPage } from './register.page';
 
 @NgModule({
-  imports: [CoreModule, IonicModule, SharedModule, RegisterPageRoutingModule],
-  declarations: [RegisterPage],
+    imports: [CoreModule, IonicModule, SharedModule, RegisterPageRoutingModule],
+    declarations: [RegisterPage],
 })
 export class RegisterPageModule {}

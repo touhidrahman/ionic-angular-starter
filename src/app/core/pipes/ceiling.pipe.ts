@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'ceiling',
+    name: 'ceiling',
 })
 export class CeilingPipe implements PipeTransform {
-  transform(value: number): number {
-    return Math.ceil(value);
-  }
+    transform(value: number): number {
+        return Math.ceil(value);
+    }
 }

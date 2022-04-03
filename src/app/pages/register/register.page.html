@@ -1,43 +1,43 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Register</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>Register</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form (ngSubmit)="register()" [formGroup]="registerFormService.form" class="">
-    <div class="input-group">
-      <ion-item>
-        <ion-label position="floating">Firstname</ion-label>
-        <ion-input type="email" formControlName="firstName"></ion-input>
-      </ion-item>
-      <app-form-error [control]="registerFormService.form.get('firstName')"></app-form-error>
+    <form (ngSubmit)="register()" [formGroup]="registerFormService.form" class="">
+        <div class="input-group">
+            <ion-item>
+                <ion-label position="floating">Firstname</ion-label>
+                <ion-input type="email" formControlName="firstName"></ion-input>
+            </ion-item>
+            <app-form-error [control]="registerFormService.form.get('firstName')"></app-form-error>
 
-      <ion-item>
-        <ion-label position="floating">Lastname</ion-label>
-        <ion-input type="email" formControlName="lastName"></ion-input>
-      </ion-item>
-      <app-form-error [control]="registerFormService.form.get('lastName')"></app-form-error>
+            <ion-item>
+                <ion-label position="floating">Lastname</ion-label>
+                <ion-input type="email" formControlName="lastName"></ion-input>
+            </ion-item>
+            <app-form-error [control]="registerFormService.form.get('lastName')"></app-form-error>
 
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <app-form-error [control]="registerFormService.form.get('email')"></app-form-error>
+            <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+            </ion-item>
+            <app-form-error [control]="registerFormService.form.get('email')"></app-form-error>
 
-      <ion-item>
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
-      <app-form-error
-        [control]="registerFormService.form.get('password')"
-        [errorMap]="{ required: 'Password is required', minlength: 'Password must be longer' }"
-      ></app-form-error>
-    </div>
+            <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+            <app-form-error
+                [control]="registerFormService.form.get('password')"
+                [errorMap]="{ required: 'Password is required', minlength: 'Password must be longer' }"
+            ></app-form-error>
+        </div>
 
-    <ion-button type="submit" expand="block" [disabled]="!registerFormService.form.valid">Register</ion-button>
-    <ion-button [routerLink]="['/login']" type="button" expand="block" color="light" fill="clear">
-      Have an account? Login!
-    </ion-button>
-  </form>
+        <ion-button type="submit" expand="block" [disabled]="!registerFormService.form.valid">Register</ion-button>
+        <ion-button [routerLink]="['/login']" type="button" expand="block" color="light" fill="clear">
+            Have an account? Login!
+        </ion-button>
+    </form>
 </ion-content>

@@ -7,23 +7,23 @@ import { CoreDirectivesModule } from './directives/core-directives.module';
 import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    HttpClientModule,
-    PipesModule,
-    CoreDirectivesModule,
-  ],
-  exports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    HttpClientModule,
-    PipesModule,
-    CoreDirectivesModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        HttpClientModule,
+        PipesModule,
+        CoreDirectivesModule,
+    ],
+    exports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        HttpClientModule,
+        PipesModule,
+        CoreDirectivesModule,
+    ],
 })
 export class CoreModule {}

@@ -10,29 +10,29 @@ import SwiperCore, { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swi
 SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom, IonicSlides]);
 
 @Component({
-  selector: 'app-intro',
-  templateUrl: './intro.page.html',
-  styleUrls: ['./intro.page.scss'],
+    selector: 'app-intro',
+    templateUrl: './intro.page.html',
+    styleUrls: ['./intro.page.scss'],
 })
 export class IntroPage implements OnInit {
-  private slides: any;
-  private hasAllSlidesSeen = false;
+    private slides: any;
+    private hasAllSlidesSeen = false;
 
-  constructor(private storageService: StorageService, private router: Router) {}
+    constructor(private storageService: StorageService, private router: Router) {}
 
-  ngOnInit() {}
+    ngOnInit() {}
 
-  next() {
-    this.hasAllSlidesSeen = this.slides.isEnd;
-    this.slides.slideNext(500);
-  }
+    next() {
+        this.hasAllSlidesSeen = this.slides.isEnd;
+        this.slides.slideNext(500);
+    }
 
-  setSwiperInstance(swiper: any) {
-    this.slides = swiper;
-  }
+    setSwiperInstance(swiper: any) {
+        this.slides = swiper;
+    }
 
-  async start() {
-    await this.storageService.set(HAS_SEEN_INTRO_KEY, 'true');
-    this.router.navigateByUrl('/login', { replaceUrl: true });
-  }
+    async start() {
+        await this.storageService.set(HAS_SEEN_INTRO_KEY, 'true');
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+    }
 }

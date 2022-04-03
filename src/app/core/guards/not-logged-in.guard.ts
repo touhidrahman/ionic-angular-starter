@@ -3,26 +3,26 @@ import { ActivatedRouteSnapshot, CanLoad, Route, Router, RouterStateSnapshot, Ur
 import { AuthService } from '../auth/services/auth.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class NotLoggedInGuard implements CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
-    if (this.authService.isLoggedIn) {
-      this.router.navigate(['home']);
-      return false;
+    canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
+        if (this.authService.isLoggedIn) {
+            this.router.navigate(['home']);
+            return false;
+        }
+
+        return true;
     }
 
-    return true;
-  }
+    canLoad(_route: Route, _segments: UrlSegment[]): boolean {
+        if (this.authService.isLoggedIn) {
+            this.router.navigate(['home']);
+            return false;
+        }
 
-  canLoad(_route: Route, _segments: UrlSegment[]): boolean {
-    if (this.authService.isLoggedIn) {
-      this.router.navigate(['home']);
-      return false;
+        return true;
     }
-
-    return true;
-  }
 }

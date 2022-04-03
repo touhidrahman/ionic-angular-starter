@@ -18,41 +18,41 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    IonicStorageModule.forRoot({
-      name: 'ionic-angular-starter__db',
-      driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage],
-    }),
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: (tokenService: TokenService) => {
-          return {
-            disallowedRoutes: [environment.apiUrl + '/auth/'],
-            allowedDomains: [environment.apiUrl],
-            tokenGetter: async () => {
-              return await tokenService.getAccessToken();
+    declarations: [AppComponent],
+    entryComponents: [],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        IonicStorageModule.forRoot({
+            name: 'ionic-angular-starter__db',
+            driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage],
+        }),
+        JwtModule.forRoot({
+            jwtOptionsProvider: {
+                provide: JWT_OPTIONS,
+                useFactory: (tokenService: TokenService) => {
+                    return {
+                        disallowedRoutes: [environment.apiUrl + '/auth/'],
+                        allowedDomains: [environment.apiUrl],
+                        tokenGetter: async () => {
+                            return await tokenService.getAccessToken();
+                        },
+                    };
+                },
+                deps: [TokenService],
             },
-          };
-        },
-        deps: [TokenService],
-      },
-    }),
-    HttpClientModule,
-    AppRoutingModule,
-  ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: APP_CONFIG, useValue: environment },
-    IntroGuard,
-    NotLoggedInGuard,
-    LoggedInGuard,
-    AuthGuard,
-  ],
-  bootstrap: [AppComponent],
+        }),
+        HttpClientModule,
+        AppRoutingModule,
+    ],
+    providers: [
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        { provide: APP_CONFIG, useValue: environment },
+        IntroGuard,
+        NotLoggedInGuard,
+        LoggedInGuard,
+        AuthGuard,
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

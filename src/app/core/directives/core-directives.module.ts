@@ -6,8 +6,8 @@ import { OnClickGoBackDirective } from './on-click-go-back.directive';
 import { RepeatDirective } from './repeat.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [HideDirective, LetDirective, RepeatDirective, OnClickGoBackDirective],
-  exports: [HideDirective, LetDirective, RepeatDirective, OnClickGoBackDirective],
+    imports: [CommonModule],
+    declarations: [HideDirective, LetDirective, RepeatDirective, OnClickGoBackDirective],
+    exports: [HideDirective, LetDirective, RepeatDirective, OnClickGoBackDirective],
 })
 export class CoreDirectivesModule {}
