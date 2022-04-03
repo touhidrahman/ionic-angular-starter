@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { Storage } from '@ionic/storage-angular';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { BehaviorSubject, filter, from, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  private _storage: Storage | null = null;
+  private storageReady = new BehaviorSubject(false);
 
   constructor(private storage: Storage) {
     this.init();
@@ -14,26 +15,34 @@ export class StorageService {
 
   async init() {
     await this.storage.defineDriver(CordovaSQLiteDriver);
-    this._storage = await this.storage.create();
+    await this.storage.create();
+    this.storageReady.next(true);
   }
 
   async set(key: string, value: any) {
-    await this._storage?.set(key, value);
+    await this.storage?.set(key, value);
   }
 
-  async get(key: string): Promise<any> {
-    return this._storage?.get(key);
+  async getAsync(key: string): Promise<any> {
+    return await this.storage?.get(key);
+  }
+
+  get(key: string): Observable<any> {
+    return this.storageReady.pipe(
+      filter((ready) => ready),
+      switchMap(() => from(this.storage.get(key)) || of(undefined)),
+    );
   }
 
   async remove(key: string) {
-    await this._storage?.remove(key);
+    await this.storage?.remove(key);
   }
 
   async keys(): Promise<string[] | undefined> {
-    return await this._storage?.keys();
+    return await this.storage?.keys();
   }
 
   async clear() {
-    await this._storage?.clear();
+    await this.storage?.clear();
   }
 }

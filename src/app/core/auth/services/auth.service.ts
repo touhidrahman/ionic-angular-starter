@@ -1,29 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppConfig, APP_CONFIG } from '@core/config/app-config';
 import { User, UserRole } from '@core/interfaces';
+import { TokenService } from '@core/services/token.service';
 import { StorageService } from '@core/storage/storage.service';
-import { catchError, Observable, of, shareReplay, switchMap, tap, timer } from 'rxjs';
+import { Platform } from '@ionic/angular';
+import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
 import { StateSubject } from 'rxjs-state-subject';
 import { LoginResponse } from '../interfaces/login-response';
 import { LoginPayload } from '../interfaces/login.payload';
 import { RegisterPayload } from '../interfaces/register.payload';
-
-const ACCESS_TOKEN_KEY = 'accesToken';
-const REFRESH_TOKEN_KEY = 'refreshToken';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   user = new StateSubject<User | null>(null);
-  accessToken = new StateSubject<string>('');
-  refreshToken = new StateSubject<string>('');
 
   private endpoint: string;
+  private loggedIn = new StateSubject<boolean>(false);
 
   get isLoggedIn(): boolean {
-    return Boolean(this.accessToken.value);
+    return this.loggedIn.value;
   }
 
   get isAdmin(): boolean {
@@ -32,14 +31,16 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private storage: StorageService,
+    private jwtService: JwtHelperService,
+    private tokenService: TokenService,
+    private platform: Platform,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
   ) {
-    this.getTokens();
     this.endpoint = this.appConfig.apiUrl + '/auth';
-    timer(300)
-      .pipe(switchMap(() => this.getLoggedInUser$()))
-      .subscribe();
+
+    this.platform.ready().then(() => {
+      this.checkToken();
+    });
   }
 
   signUp(data: RegisterPayload): Observable<void> {
@@ -48,8 +49,11 @@ export class AuthService {
 
   login(data: LoginPayload): Observable<LoginResponse | null> {
     return this.http.post<LoginResponse>(`${this.endpoint}/login`, data).pipe(
-      tap((data) => {
-        this.setTokens(data.accessToken, data.refreshToken);
+      tap(({ accessToken, refreshToken }) => {
+        this.tokenService.setTokens(accessToken, refreshToken);
+        const decoded = this.jwtService.decodeToken(accessToken);
+        this.loggedIn.next(true);
+        this.user.next(decoded as User);
       }),
     );
   }
@@ -70,26 +74,13 @@ export class AuthService {
     return this.http.post<void>(`${this.endpoint}/change-password`, { password, passwordConfirmation });
   }
 
-  setTokens(accessToken: string, refreshToken = '') {
-    this.storage.set(ACCESS_TOKEN_KEY, accessToken);
-    this.storage.set(REFRESH_TOKEN_KEY, refreshToken);
-    this.accessToken.next(accessToken);
-    this.refreshToken.next(refreshToken);
-  }
-
-  deleteTokens() {
-    this.storage.remove(ACCESS_TOKEN_KEY);
-    this.storage.remove(REFRESH_TOKEN_KEY);
-    this.accessToken.next('');
-    this.refreshToken.next('');
-  }
-
   signOut() {
-    this.deleteTokens();
+    this.tokenService.deleteTokens();
     this.user.next(null);
+    this.loggedIn.next(false);
   }
 
-  getLoggedInUser$(): Observable<User | null> {
+  getLoggedInUserFromServer$(): Observable<User | null> {
     return this.http.get<User>(`${this.endpoint}/me`).pipe(
       tap((user) => this.user.next(user)),
       catchError(() => {
@@ -100,10 +91,19 @@ export class AuthService {
     );
   }
 
-  private async getTokens() {
-    const accessToken = await this.storage.get(ACCESS_TOKEN_KEY);
-    const refreshToken = await this.storage.get(REFRESH_TOKEN_KEY);
-    this.accessToken.next(accessToken);
-    this.refreshToken.next(refreshToken);
+  private async checkToken() {
+    this.tokenService.getAccessToken$().subscribe((accessToken) => {
+      if (accessToken) {
+        const decoded = this.jwtService.decodeToken(accessToken);
+        const isExpired = this.jwtService.isTokenExpired(accessToken);
+
+        if (!isExpired) {
+          this.loggedIn.next(true);
+          this.user.next(decoded as User);
+        } else {
+          this.tokenService.deleteAccessToken();
+        }
+      }
+    });
   }
 }

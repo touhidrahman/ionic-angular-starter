@@ -1,17 +1,25 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AutologinGuard } from './core/guards/autologin.guard';
+import { NotLoggedInGuard } from '@core/guards/not-logged-in.guard';
+import { LoggedInGuard } from '@core/guards/logged-in.guard';
+import { IntroGuard } from '@core/guards/intro.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then((m) => m.HomePageModule),
+    canActivate: [LoggedInGuard], // TODO add intro guard,
+    canLoad: [IntroGuard],
   },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
-    canLoad: [AutologinGuard], // TODO add intro guard
+    canLoad: [NotLoggedInGuard],
   },
   {
     path: 'intro',
@@ -21,10 +29,12 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: () =>
       import('./pages/forgot-password/forgot-password.module').then((m) => m.ForgotPasswordPageModule),
+    canLoad: [NotLoggedInGuard],
   },
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then((m) => m.RegisterPageModule),
+    canLoad: [NotLoggedInGuard],
   },
   {
     path: 'reset-forgotten-password',
