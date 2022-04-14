@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '@core/auth/services/auth.service';
+import { Component } from '@angular/core'
+import { Router } from '@angular/router'
+import { AuthService } from '@core/auth/services/auth.service'
 
 @Component({
     selector: 'app-forgot-password',
@@ -8,7 +8,7 @@ import { AuthService } from '@core/auth/services/auth.service';
     styleUrls: ['./forgot-password.page.scss'],
 })
 export class ForgotPasswordPage {
-    email = '';
+    email = ''
 
     constructor(private auth: AuthService, private router: Router) {}
 
@@ -16,8 +16,8 @@ export class ForgotPasswordPage {
         this.auth.forgotPassword(this.email).subscribe({
             next: () => {
                 // this.toast.success('Success! Please check your email.');
-                this.router.navigate(['/']);
+                this.router.navigate(['/'])
             },
-        });
+        })
     }
 }

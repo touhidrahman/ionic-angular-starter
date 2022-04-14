@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { NotLoggedInGuard } from '@core/guards/not-logged-in.guard';
-import { LoggedInGuard } from '@core/guards/logged-in.guard';
-import { IntroGuard } from '@core/guards/intro.guard';
+import { NgModule } from '@angular/core'
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router'
+import { NotLoggedInGuard } from '@core/guards/not-logged-in.guard'
+import { LoggedInGuard } from '@core/guards/logged-in.guard'
+import { IntroGuard } from '@core/guards/intro.guard'
 
 const routes: Routes = [
     {
@@ -51,7 +51,7 @@ const routes: Routes = [
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then((m) => m.NotFoundPageModule),
     },
-];
+]
 @NgModule({
     imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
     exports: [RouterModule],

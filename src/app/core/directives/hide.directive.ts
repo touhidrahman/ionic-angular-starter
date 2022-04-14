@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2 } from '@angular/core'
 
 @Directive({
     selector: '[appHide]',
@@ -8,9 +8,9 @@ export class HideDirective {
 
     @Input() set appHide(value: boolean) {
         if (value) {
-            this.renderer2.setStyle(this.elementRef.nativeElement, 'visibility', 'hidden');
+            this.renderer2.setStyle(this.elementRef.nativeElement, 'visibility', 'hidden')
         } else {
-            this.renderer2.removeStyle(this.elementRef.nativeElement, 'visibility');
+            this.renderer2.removeStyle(this.elementRef.nativeElement, 'visibility')
         }
     }
 }

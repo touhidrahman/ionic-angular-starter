@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs'
+import { Injectable } from '@angular/core'
 import {
     ActivatedRouteSnapshot,
     CanActivate,
@@ -9,8 +9,8 @@ import {
     RouterStateSnapshot,
     UrlSegment,
     UrlTree,
-} from '@angular/router';
-import { AuthService } from '../auth/services/auth.service';
+} from '@angular/router'
+import { AuthService } from '../auth/services/auth.service'
 
 @Injectable({
     providedIn: 'root',
@@ -23,11 +23,11 @@ export class LoggedInGuard implements CanActivate, CanLoad {
         _state: RouterStateSnapshot,
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         if (this.authService.isLoggedIn) {
-            return true;
+            return true
         }
 
-        this.router.navigate(['login']);
-        return false;
+        this.router.navigate(['login'])
+        return false
     }
 
     canLoad(
@@ -35,10 +35,10 @@ export class LoggedInGuard implements CanActivate, CanLoad {
         _segments: UrlSegment[],
     ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         if (this.authService.isLoggedIn) {
-            return true;
+            return true
         }
 
-        this.router.navigate(['login']);
-        return false;
+        this.router.navigate(['login'])
+        return false
     }
 }

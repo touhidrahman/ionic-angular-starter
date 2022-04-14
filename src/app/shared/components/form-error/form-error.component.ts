@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { Component, Input } from '@angular/core'
+import { AbstractControl } from '@angular/forms'
 
 @Component({
     selector: 'app-form-error',
@@ -7,6 +7,6 @@ import { AbstractControl } from '@angular/forms';
     styleUrls: ['./form-error.component.scss'],
 })
 export class FormErrorComponent {
-    @Input() control: AbstractControl | null = null;
-    @Input() errorMap: { [key: string]: string } = {};
+    @Input() control: AbstractControl | null = null
+    @Input() errorMap: { [key: string]: string } = {}
 }
