@@ -1,4 +1,4 @@
-import { AppConfig } from '@core/config/app-config';
+import { AppConfig } from '@core/config/app-config'
 
 export const environment: AppConfig = {
     production: false,
@@ -6,4 +6,4 @@ export const environment: AppConfig = {
     appwriteEndpoint: 'string',
     appwriteProjectId: 'string',
     appwriteCollectionId: 'string',
-};
+}

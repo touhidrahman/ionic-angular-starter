@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@core/auth/services/auth.service';
-import { timer } from 'rxjs';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { AuthService } from '@core/auth/services/auth.service'
+import { timer } from 'rxjs'
 
 @Component({
     selector: 'app-verify-email',
@@ -9,31 +9,31 @@ import { timer } from 'rxjs';
     styleUrls: ['./verify-email.page.scss'],
 })
 export class VerifyEmailPage implements OnInit {
-    message = 'Verifying email...';
+    message = 'Verifying email...'
 
     constructor(private auth: AuthService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
     ngOnInit(): void {
-        const token = this.activatedRoute.snapshot.params.token ?? '';
+        const token = this.activatedRoute.snapshot.params.token ?? ''
         if (!token) {
-            this.message = 'Invalid token';
-            this.redirectToLoginPage();
-            return;
+            this.message = 'Invalid token'
+            this.redirectToLoginPage()
+            return
         }
 
         this.auth.verifyEmail(token).subscribe({
             next: () => {
-                this.message = 'Email verified. Redirecting to login page...';
-                this.redirectToLoginPage();
+                this.message = 'Email verified. Redirecting to login page...'
+                this.redirectToLoginPage()
             },
             error: () => {
-                this.message = 'Invalid token';
-                this.redirectToLoginPage();
+                this.message = 'Invalid token'
+                this.redirectToLoginPage()
             },
-        });
+        })
     }
 
     private redirectToLoginPage() {
-        timer(5000).subscribe({ next: () => this.router.navigate(['/']) });
+        timer(5000).subscribe({ next: () => this.router.navigate(['/']) })
     }
 }
