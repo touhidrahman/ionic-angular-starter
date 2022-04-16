@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
+import { AppwriteService } from '@core/appwrite/appwrite.service'
 import { AuthService } from '@core/auth/services/auth.service'
 import { RegisterFormService } from '@core/auth/services/register-form.service'
 
@@ -13,37 +14,34 @@ export class RegisterPage implements OnInit {
     loading = false
     errors: string[] = []
 
-    constructor(public registerFormService: RegisterFormService, private router: Router, private auth: AuthService) {}
+    constructor(
+        public registerFormService: RegisterFormService,
+        private router: Router,
+        private auth: AuthService,
+        private appwrite: AppwriteService,
+    ) {}
 
     ngOnInit(): void {
         void 0
     }
 
-    register(): void {
+    register() {
         if (this.loading) {
             return
         }
         this.errors = []
 
         this.loading = true
-        this.auth.signUp(this.registerFormService.getValue()).subscribe({
-            next: () => {
+        const data = this.registerFormService.getValue()
+        this.auth.signUp(data)?.then(
+            (_response) => {
                 this.loading = false
-                this.router.navigate(['/'])
+                this.router.navigateByUrl('/')
             },
-            error: ({ error }) => {
-                if (typeof error.message === 'string') {
-                    this.errors.push(error.message)
-                }
-                if (Array.isArray(error.message)) {
-                    error.message.forEach((x: string) => this.errors.push(x))
-                }
-
+            (error) => {
                 this.loading = false
+                this.errors = error.errors
             },
-            complete: () => {
-                this.loading = false
-            },
-        })
+        )
     }
 }

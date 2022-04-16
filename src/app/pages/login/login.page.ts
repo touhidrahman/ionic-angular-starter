@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { AppwriteService } from '@core/appwrite/appwrite.service'
 import { AuthService } from '@core/auth/services/auth.service'
 import { LoginFormService } from '@core/auth/services/login-form.service'
 import { AlertController, LoadingController } from '@ionic/angular'
@@ -41,22 +42,28 @@ export class LoginPage implements OnInit {
         const loading = await this.loadingController.create()
         await loading.present()
 
-        this.auth.login(this.loginFormService.getValue()).subscribe({
-            next: async (_) => {
-                await loading.dismiss()
-                this.router.navigateByUrl(this.returnUrl, { replaceUrl: true })
-            },
-            error: async () => {
-                await loading.dismiss()
+        this.auth
+            .login(this.loginFormService.getValue())
+            ?.then(
+                async (_response) => {
+                    await loading.dismiss()
 
-                const alert = await this.alertController.create({
-                    header: 'Login failed',
-                    message: 'Please check your email and password',
-                    buttons: ['OK'],
-                })
+                    this.router.navigateByUrl(this.returnUrl, { replaceUrl: true })
+                },
+                async (_error) => {
+                    await loading.dismiss()
 
-                await alert.present()
-            },
-        })
+                    const alert = await this.alertController.create({
+                        header: 'Login failed',
+                        message: 'Please check your email and password',
+                        buttons: ['OK'],
+                    })
+
+                    await alert.present()
+                },
+            )
+            .finally(async () => {
+                await loading.dismiss()
+            })
     }
 }
