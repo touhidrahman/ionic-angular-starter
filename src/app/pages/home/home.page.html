@@ -1,10 +1,57 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>home</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button>
+                <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+            </ion-button>
+            <ion-button>
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="primary">
+            <ion-button color="">
+                <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Home</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-button (click)="write()" color="primary">Primary</ion-button>
-    <pre>{{ created | json }}</pre>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="write()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+    <ion-list>
+        <ion-card *ngFor="let post of posts; let i = index">
+            <ion-card-header>
+                <ion-card-subtitle class="flex">
+                    <ion-badge class="mr-4" [color]="post.type === 'Question' ? 'danger' : 'success'">{{
+                        post.type
+                    }}</ion-badge>
+                    {{ post.country }}
+                </ion-card-subtitle>
+                <ion-card-title>{{ post.title }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+                <ion-label class="block" color="primary"> {{ post.institute }} </ion-label>
+                <ion-label class="block" color="dark"> {{ post.state }} </ion-label>
+                <div class="mb-3 mt-2 text-sm">
+                    {{ post.level }}{{ post.program ? ', ' + post.program : '' }}{{ post.year ? ', ' + post.year : ''
+                    }}{{ post.semester ? ' ' + post.semester : '' }}
+                </div>
+                <ion-chip *ngFor="let tag of post.tags; let i = index" color="secondary">
+                    <ion-label *ngIf="i < 3" color="dark">{{ tag }}</ion-label>
+                </ion-chip>
+            </ion-card-content>
+        </ion-card>
+    </ion-list>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPosts($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
