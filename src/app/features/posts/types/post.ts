@@ -1,6 +1,7 @@
 import { SafeHtml } from '@angular/platform-browser'
 
 export interface Post {
+    $id?: string
     country: string
     state?: string
     institute?: string

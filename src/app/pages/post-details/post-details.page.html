@@ -1,0 +1,57 @@
+<app-header-one>{{ post?.type ?? 'Details' }}</app-header-one>
+
+<ion-content *ngIf="post">
+    <ion-text color="secondary">
+        <h1>{{ post.title }}</h1>
+    </ion-text>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle>{{ post?.type }} related to</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>Country </ion-col>
+                    <ion-col> {{ post.country }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>State / City </ion-col>
+                    <ion-col> {{ post.state }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Institute </ion-col>
+                    <ion-col> {{ post.institute }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Study Level </ion-col>
+                    <ion-col> {{ post.level }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Program Name </ion-col>
+                    <ion-col> {{ post.program }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Year </ion-col>
+                    <ion-col> {{ post.year }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Semester </ion-col>
+                    <ion-col> {{ post.semester }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Course </ion-col>
+                    <ion-col> {{ post.course }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>Topic </ion-col>
+                    <ion-col>
+                        <ion-note *ngFor="let tag of post.tags" class="mr-4">
+                            {{ post.course }}
+                        </ion-note>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

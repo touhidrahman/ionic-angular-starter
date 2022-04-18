@@ -29,7 +29,6 @@ export class AuthService {
         private storage: StorageService,
         @Inject(LOCATION) private location: Location,
     ) {
-        console.log('TCL: ~ location ', this.location)
         this.shouldRefreshUser.asObservable().subscribe(() => this.checkToken())
         this.checkToken()
     }

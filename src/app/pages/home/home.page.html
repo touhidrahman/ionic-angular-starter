@@ -1,21 +1,4 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="secondary">
-            <ion-button>
-                <ion-icon slot="icon-only" name="person-circle"></ion-icon>
-            </ion-button>
-            <ion-button>
-                <ion-icon slot="icon-only" name="search"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-buttons slot="primary">
-            <ion-button color="">
-                <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Home</ion-title>
-    </ion-toolbar>
-</ion-header>
+<app-header-one>Home</app-header-one>
 
 <ion-content>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -25,7 +8,7 @@
     </ion-fab>
 
     <ion-list>
-        <ion-card *ngFor="let post of posts; let i = index">
+        <ion-card [routerLink]="['/posts', post.$id]" *ngFor="let post of posts; let i = index">
             <ion-card-header>
                 <ion-card-subtitle class="flex">
                     <ion-badge class="mr-4" [color]="post.type === 'Question' ? 'danger' : 'success'">{{

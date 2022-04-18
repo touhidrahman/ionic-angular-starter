@@ -8,9 +8,13 @@ import { Post } from '../types/post'
     providedIn: 'root',
 })
 export class PostService {
-    private collectionId = environment.collectionIds.posts
+    private collectionId = environment.appwrite.collectionIds.posts
 
     constructor(private appwrite: AppwriteService) {}
+
+    async getPost(id: string) {
+        return this.appwrite.sdk?.database.getDocument(this.collectionId, id)
+    }
 
     async getPosts(
         queries: string[] = [],

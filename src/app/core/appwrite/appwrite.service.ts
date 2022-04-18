@@ -12,7 +12,7 @@ export class AppwriteService {
         // Init your Web SDK
         this.sdk = new Appwrite()
         this.sdk
-            .setEndpoint(this.environment.appwriteEndpoint) // Your Appwrite Endpoint
-            .setProject(this.environment.appwriteProjectId) // Your project ID
+            .setEndpoint(this.environment.appwrite.endpoint) // Your Appwrite Endpoint
+            .setProject(this.environment.appwrite.projectId) // Your project ID
     }
 }

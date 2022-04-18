@@ -3,10 +3,13 @@ import { InjectionToken, ValueProvider } from '@angular/core'
 export interface AppConfig {
     production: boolean
     apiUrl: string
-    appwriteEndpoint: string
-    appwriteProjectId: string
-    collectionIds: {
-        posts: string
+    appwrite: {
+        endpoint: string
+        projectId: string
+        superAdminId: string
+        collectionIds: {
+            posts: string
+        }
     }
 }
 

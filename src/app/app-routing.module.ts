@@ -48,6 +48,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/verify-email/verify-email.module').then((m) => m.VerifyEmailPageModule),
     },
     {
+        path: 'posts/:id',
+        loadChildren: () => import('./pages/post-details/post-details.module').then((m) => m.PostDetailsPageModule),
+    },
+    {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then((m) => m.NotFoundPageModule),
     },
