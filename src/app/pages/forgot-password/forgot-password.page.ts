@@ -13,11 +13,9 @@ export class ForgotPasswordPage {
     constructor(private auth: AuthService, private router: Router) {}
 
     submit() {
-        this.auth.forgotPassword(this.email).subscribe({
-            next: () => {
-                // this.toast.success('Success! Please check your email.');
-                this.router.navigate(['/'])
-            },
+        this.auth.forgotPassword(this.email)?.then(() => {
+            // this.toast.success('Success! Please check your email.');
+            this.router.navigate(['/'])
         })
     }
 }

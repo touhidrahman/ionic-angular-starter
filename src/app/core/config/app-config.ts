@@ -5,7 +5,9 @@ export interface AppConfig {
     apiUrl: string
     appwriteEndpoint: string
     appwriteProjectId: string
-    appwriteCollectionId: string
+    collectionIds: {
+        posts: string
+    }
 }
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config')

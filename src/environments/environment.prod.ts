@@ -10,5 +10,7 @@ export const environment: AppConfig = {
     apiUrl: '',
     appwriteEndpoint: 'string',
     appwriteProjectId: 'string',
-    appwriteCollectionId: 'string',
+    collectionIds: {
+        posts: '625d4946e5ba6506e42c',
+    },
 }

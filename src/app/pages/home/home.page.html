@@ -4,4 +4,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+    <ion-button (click)="write()" color="primary">Primary</ion-button>
+    <pre>{{ created | json }}</pre>
+</ion-content>

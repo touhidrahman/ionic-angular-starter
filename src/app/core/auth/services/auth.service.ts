@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core'
+import { Inject, Injectable } from '@angular/core'
 import { AppwriteService } from '@core/appwrite/appwrite.service'
 import { StorageService } from '@core/storage/storage.service'
-import { Observable, of, Subject } from 'rxjs'
+import { LOCATION } from '@ng-web-apis/common'
+import { Models } from 'appwrite'
+import { Subject } from 'rxjs'
 import { StateSubject } from 'rxjs-state-subject'
 import { LoginPayload } from '../interfaces/login.payload'
 import { RegisterPayload } from '../interfaces/register.payload'
@@ -22,7 +24,12 @@ export class AuthService {
         return this.loggedIn.value
     }
 
-    constructor(private appwrite: AppwriteService, private storage: StorageService) {
+    constructor(
+        private appwrite: AppwriteService,
+        private storage: StorageService,
+        @Inject(LOCATION) private location: Location,
+    ) {
+        console.log('TCL: ~ location ', this.location)
         this.shouldRefreshUser.asObservable().subscribe(() => this.checkToken())
         this.checkToken()
     }
@@ -47,20 +54,21 @@ export class AuthService {
         }
     }
 
-    verifyEmail(token: string): Observable<void> {
-        return of(void 0)
+    verifyEmail(userId: string, secret: string): Promise<Models.Token> | undefined {
+        return this.appwrite.sdk?.account.updateVerification(userId, secret)
     }
 
-    forgotPassword(email: string): Observable<void> {
-        return of(void 0)
+    forgotPassword(email: string): Promise<Models.Token> | undefined {
+        return this.appwrite.sdk?.account.createRecovery(email, this.location.origin)
     }
 
-    resetForgottenPassword(token: string, password: string, passwordConfirmation: string): Observable<void> {
-        return of(void 0)
-    }
-
-    changePassword(password: string, passwordConfirmation: string): Observable<void> {
-        return of(void 0)
+    resetForgottenPassword(
+        userId: string,
+        secret: string,
+        password: string,
+        passwordAgain: string,
+    ): Promise<Models.Token> | undefined {
+        return this.appwrite.sdk?.account.updateRecovery(userId, secret, password, passwordAgain)
     }
 
     signOut() {

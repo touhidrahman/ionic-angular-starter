@@ -15,13 +15,12 @@ export class ResetForgottenPasswordPage implements OnInit {
     })
 
     errors: string[] = []
-    token = this.ar.snapshot.params.token ?? ''
 
     constructor(
         private auth: AuthService,
         private fb: FormBuilder,
         private router: Router,
-        private ar: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
@@ -35,14 +34,20 @@ export class ResetForgottenPasswordPage implements OnInit {
             this.errors.push('Passwords do not match')
             return
         }
-        this.auth.resetForgottenPassword(this.token, password, passwordConfirmation).subscribe({
-            next: () => {
-                // this.toast.success('Password reset successfully');
+
+        const { userId, secret } = this.activatedRoute.snapshot.params
+        if (!userId && !secret) {
+            this.errors.push('Token is invalid')
+            return
+        }
+
+        this.auth.resetForgottenPassword(userId, secret, password, passwordConfirmation)?.then(
+            () => {
                 this.router.navigate(['/login'])
             },
-            error: (err) => {
+            (err) => {
                 this.errors.push(err.error.message)
             },
-        })
+        )
     }
 }
