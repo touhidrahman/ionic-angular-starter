@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { PostService } from '@features/posts/services/post.service'
-import { Post } from '@features/posts/types/post'
+import { Post, PostComment, PostWithComment } from '@features/posts/types/post'
 
 @Component({
     selector: 'app-post-details',
@@ -9,16 +9,15 @@ import { Post } from '@features/posts/types/post'
     styleUrls: ['./post-details.page.scss'],
 })
 export class PostDetailsPage implements OnInit {
-    post: Post | null = null
+    post: PostWithComment | null = null
 
     constructor(private postService: PostService, private activatedRoute: ActivatedRoute) {}
 
-    ngOnInit() {
+    async ngOnInit() {
         const id = this.activatedRoute.snapshot.params.id ?? ''
 
-        this.postService.getPost(id).then((post) => {
-            console.log(post)
-            this.post = post as unknown as Post
-        })
+        const post = await this.postService.getPost(id)
+        console.log('TCL: | ngOnInit | post', post)
+        this.post = post as unknown as PostWithComment
     }
 }

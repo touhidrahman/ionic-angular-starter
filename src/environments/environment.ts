@@ -9,6 +9,8 @@ export const environment: AppConfig = {
         superAdminId: '62599c1db79403ee4f60',
         collectionIds: {
             posts: '625d4946e5ba6506e42c',
+            comments: 'aw-biyemela-comments',
+            countries: 'aw-biyemela-countries'
         },
     },
 }

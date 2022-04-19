@@ -8,21 +8,15 @@ import { AuthService } from '../auth/services/auth.service'
 export class NotLoggedInGuard implements CanLoad {
     constructor(private authService: AuthService, private router: Router) {}
 
-    canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
-        if (this.authService.isLoggedIn) {
-            this.router.navigate(['home'])
-            return false
-        }
-
-        return true
+    async canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
+        const loggedIn = await this.authService.getAuthStatus()
+        if (loggedIn) this.router.navigate(['home'])
+        return loggedIn
     }
 
-    canLoad(_route: Route, _segments: UrlSegment[]): boolean {
-        if (this.authService.isLoggedIn) {
-            this.router.navigate(['home'])
-            return false
-        }
-
-        return true
+    async canLoad(_route: Route, _segments: UrlSegment[]) {
+        const loggedIn = await this.authService.getAuthStatus()
+        if (loggedIn) this.router.navigate(['home'])
+        return loggedIn
     }
 }

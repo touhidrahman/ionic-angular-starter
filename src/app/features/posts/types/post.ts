@@ -1,7 +1,7 @@
 import { SafeHtml } from '@angular/platform-browser'
+import { Models } from 'appwrite'
 
-export interface Post {
-    $id?: string
+export type Post = {
     country: string
     state?: string
     institute?: string
@@ -15,4 +15,17 @@ export interface Post {
     title: string
     text: SafeHtml
     tags?: string[]
-}
+    createdAt?: number
+    createdBy?: string
+} & Models.Document
+
+export type PostComment = {
+    linkedCollectionId: string
+    linkedDocumentId: string
+    text: string
+    createdBy: string
+    createdByName: string
+    createdAt: number
+} & Models.Document
+
+export type PostWithComment = Post & { comments: PostComment[] }

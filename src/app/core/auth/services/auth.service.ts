@@ -53,6 +53,28 @@ export class AuthService {
         }
     }
 
+    async getAuthStatus(): Promise<boolean> {
+        try {
+            await this.getAuthSession()
+            return true
+        } catch (err) {
+            // If there is error, user is not logged in
+            return false
+        }
+    }
+
+    async getAuthSession() {
+        return this.appwrite.sdk?.account.get()
+    }
+
+    async getProfilePhoto(): Promise<URL | undefined> {
+        try {
+            const account = await this.getAuthSession()
+            const name = account?.name ?? account?.email ?? 'Anonymous'
+            return this.appwrite.sdk?.avatars.getInitials(name, 50, 50)
+        } catch (error) {}
+    }
+
     verifyEmail(userId: string, secret: string): Promise<Models.Token> | undefined {
         return this.appwrite.sdk?.account.updateVerification(userId, secret)
     }
@@ -70,9 +92,15 @@ export class AuthService {
         return this.appwrite.sdk?.account.updateRecovery(userId, secret, password, passwordAgain)
     }
 
-    signOut() {
-        this.user.next(null)
-        this.loggedIn.next(false)
+    async signOut() {
+        try {
+            await this.appwrite.sdk?.account.deleteSession('current')
+            this.user.next(null)
+            this.loggedIn.next(false)
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     private async checkToken() {

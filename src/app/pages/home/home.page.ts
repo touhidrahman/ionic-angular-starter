@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
     }
 
     async write() {
-        const post: Post = {
+        const post: any = {
             country: 'Germany',
             state: 'Hesse',
             institute: `Hochschule Fulda ${this.i++}`,
@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
             course: 'Software Engineering',
             semester: 'Fall',
             type: 'Article',
-            title: '<h1>How to pass software engineering principles</h1>',
+            title: 'How to apply for visa',
             text: '<h1>How to pass software engineering principles</h1>',
             tags: ['software engineering', 'principles'],
         }

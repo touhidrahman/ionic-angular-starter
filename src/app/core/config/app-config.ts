@@ -9,6 +9,8 @@ export interface AppConfig {
         superAdminId: string
         collectionIds: {
             posts: string
+            comments: string
+            countries: string
         }
     }
 }
