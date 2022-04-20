@@ -29,3 +29,13 @@ export type PostComment = {
 } & Models.Document
 
 export type PostWithComment = Post & { comments: PostComment[] }
+
+export type AppUser = {
+    $id: string
+    name: string
+    registration: number
+    status: boolean
+    passwordUpdate: number
+    email: string
+    emailVerification: boolean
+}

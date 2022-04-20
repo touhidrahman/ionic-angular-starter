@@ -1,19 +1,29 @@
 <app-header-one [showBackButton]="true">{{ post?.type ?? 'Details' }}</app-header-one>
 
 <ion-content *ngIf="post">
-    <ion-text color="primary">
-        <h1 class="px-2 pt-4 text-2xl">{{ post.title }}</h1>
-    </ion-text>
-    <h3 class="px-2 pt-3 text-sm">Published {{ post.createdAt | date }}</h3>
-    <div class="my-3">
-        <ion-chip *ngFor="let tag of post.tags" class="mr-2">
-            <ion-label>
-                {{ tag }}
-            </ion-label>
-        </ion-chip>
+    <div class="px-2 pt-4">
+        <ion-text color="primary">
+            <h1 class="text-2xl">{{ post.title }}</h1>
+        </ion-text>
     </div>
 
-    <ion-card>
+    <div class="px-2 pt-3">
+        <h3 class="text-sm">Published {{ post.createdAt | date }}</h3>
+        <div class="my-3">
+            <ion-chip *ngFor="let tag of post.tags" class="mr-2">
+                <ion-label>
+                    {{ tag }}
+                </ion-label>
+            </ion-chip>
+        </div>
+    </div>
+
+    <div class="mt-8 px-2">
+        <div class="mb-8" [innerHtml]="post.text"></div>
+        <div class="text-right"></div>
+    </div>
+
+    <ion-card color="light">
         <ion-card-header>
             <ion-card-subtitle>{{ post?.type }} related to</ion-card-subtitle>
         </ion-card-header>
@@ -53,17 +63,26 @@
         </ion-card-content>
     </ion-card>
 
-    <div class="mt-8 px-2">
-        <div [innerHtml]="post.text"></div>
+    <div class="px-2">
+        <ion-label>Your comment</ion-label>
+        <ion-textarea [formControl]="userComment" placeholder="Enter text here..."></ion-textarea>
+        <ion-button expand="block" (click)="submitComment()" color="primary">Submit</ion-button>
     </div>
 
-    <div class="mt-12 px-2 text-xs" *ngFor="let comment of post.comments">
-        <ion-label color="tertiary">
-            {{ comment.createdByName }}
-        </ion-label>
-        <div class="mt-4" [innerHtml]="comment.text"></div>
-        <div class="text-right text-gray-400">
-            {{ comment.createdAt | date }}
-        </div>
-    </div>
+    <ion-item-divider>
+        <ion-label> Comments </ion-label>
+    </ion-item-divider>
+
+    <ion-list>
+        <ion-item *ngFor="let comment of post.comments">
+            <ion-avatar slot="start">
+                <img [src]="comment.createdByName | profilePhoto | async" />
+            </ion-avatar>
+            <ion-label>
+                <h2>{{ comment.createdByName }}</h2>
+                <h3>{{ comment.text }}</h3>
+                <p>{{ comment.createdAt | date }}</p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

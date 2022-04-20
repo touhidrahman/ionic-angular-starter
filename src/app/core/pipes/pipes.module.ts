@@ -7,11 +7,12 @@ import { Nl2brPipe } from './nl2br.pipe'
 import { SafeUrlPipe } from './safe-url.pipe'
 import { UniquePipe } from './unique.pipe'
 import { ValueInPipe } from './value-in.pipe';
-import { EpochToDatePipe } from './epoch-to-date.pipe'
+import { EpochToDatePipe } from './epoch-to-date.pipe';
+import { ProfilePhotoPipe } from './profile-photo.pipe'
 
 @NgModule({
-    declarations: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe, EpochToDatePipe],
-    exports: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe, EpochToDatePipe],
+    declarations: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe, EpochToDatePipe, ProfilePhotoPipe],
+    exports: [SafeUrlPipe, SpreadIntoArrayPipe, CeilingPipe, Nl2brPipe, UniquePipe, ValueInPipe, BytesPipe, EpochToDatePipe, ProfilePhotoPipe],
     imports: [CommonModule],
 })
 export class PipesModule {}

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core'
 import { AppwriteService } from '@core/appwrite/appwrite.service'
 import { StorageService } from '@core/storage/storage.service'
+import { AppUser } from '@features/posts/types/post'
 import { LOCATION } from '@ng-web-apis/common'
 import { Models } from 'appwrite'
 import { Subject } from 'rxjs'
@@ -63,8 +64,8 @@ export class AuthService {
         }
     }
 
-    async getAuthSession() {
-        return this.appwrite.sdk?.account.get()
+    async getAuthSession(): Promise<AppUser> {
+        return this.appwrite.sdk?.account.get() as Promise<AppUser>
     }
 
     async getProfilePhoto(): Promise<URL | undefined> {
