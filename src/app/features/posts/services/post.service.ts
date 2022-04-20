@@ -31,15 +31,43 @@ export class PostService {
         return { ...(doc as Post), comments }
     }
 
+    async createComment(comment: string, post: Post): Promise<PostComment | undefined> {
+        const user = await this.appwrite.sdk?.account.get()
+        if (!user) return
+
+        const data: Partial<PostComment> = {
+            linkedCollectionId: post.$collection,
+            linkedDocumentId: post.$id,
+            text: comment,
+            createdAt: Date.now(),
+            createdBy: user?.$id,
+            createdByName: user?.name,
+        }
+        return this.appwrite.sdk?.database.createDocument(
+            this.commentsCollectionId,
+            'unique()',
+            data,
+        ) as Promise<PostComment>
+    }
+
     async getPosts(queries: string[] = [], limit = 24, offset = 0): Promise<Models.DocumentList<Post> | undefined> {
-        return this.appwrite.sdk?.database.listDocuments<Post>(this.postsCollectionId, queries, limit, offset)
+        return this.appwrite.sdk?.database.listDocuments<Post>(
+            this.postsCollectionId,
+            queries,
+            limit,
+            offset,
+            undefined,
+            undefined,
+            ['createdAt'],
+            ['DESC'],
+        )
     }
 
     async createPost(post: Post) {
         const user = await this.appwrite.sdk?.account.get()
         const data = {
             ...post,
-            createdAt: dayjs(new Date()).unix(),
+            createdAt: Date.now(),
             createdBy: user?.$id,
         }
         return this.appwrite.sdk?.database.createDocument(this.postsCollectionId, 'unique()', data, ['role:all'])
